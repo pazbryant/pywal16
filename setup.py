@@ -1,6 +1,7 @@
 """wal - setup.py"""
 
 import sys
+
 import setuptools
 
 try:
@@ -38,7 +39,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
     ],
-    data_files=[('man/man1', ['data/man/man1/wal.1'])],
+    data_files=[("man/man1", ["data/man/man1/wal.1"])],
     packages=["pywal"],
     entry_points={"console_scripts": ["wal=pywal.__main__:main"]},
     python_requires=">=3.5",

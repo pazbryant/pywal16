@@ -15,35 +15,39 @@ import os
 import shutil
 import sys
 
-from .settings import __version__, CACHE_DIR, CONF_DIR
-from . import colors
-from . import export
-from . import image
-from . import reload
-from . import sequences
-from . import theme
-from . import util
-from . import wallpaper
-from . import donation
-from . import eastereggs
-
+from . import (
+    colors,
+    donation,
+    eastereggs,
+    export,
+    image,
+    reload,
+    sequences,
+    theme,
+    util,
+    wallpaper,
+)
+from .settings import CACHE_DIR, CONF_DIR, __version__
 
 show_colorama_warning = False
 if sys.platform.startswith("win"):
     try:
         import colorama
+
         colorama.just_fix_windows_console()
     except ImportError:
         no_colorama_terms = [
-                "wezterm",
-                "alacritty",
-                "hyper",
-                "putty",
-                "ghostty",
-                "mintty",
-                ]
-        if os.environ.get("TERMINAL") not in no_colorama_terms and \
-           os.environ.get("TERM_PROGRAM") not in no_colorama_terms:
+            "wezterm",
+            "alacritty",
+            "hyper",
+            "putty",
+            "ghostty",
+            "mintty",
+        ]
+        if (
+            os.environ.get("TERMINAL") not in no_colorama_terms
+            and os.environ.get("TERM_PROGRAM") not in no_colorama_terms
+        ):
             show_colorama_warning = True
 
 
@@ -60,9 +64,7 @@ def get_args():
               *Only works in terminals that implement OSC-11 (URxvt)*",
     )
 
-    arg.add_argument(
-        "-b", metavar="background", help="Custom background color to use."
-    )
+    arg.add_argument("-b", metavar="background", help="Custom background color to use.")
 
     arg.add_argument(
         "--fg", metavar="foreground", help="Custom foreground color to use."
@@ -114,7 +116,7 @@ def get_args():
         default=False,
         const="darken",
         choices=["darken", "lighten"],
-        help="Use 16 color output " '"darken" or "lighten" default: darken',
+        help='Use 16 color output "darken" or "lighten" default: darken',
     )
 
     arg.add_argument(
@@ -125,9 +127,7 @@ def get_args():
         "subdirectories instead of the root only.",
     )
 
-    arg.add_argument(
-        "--saturate", metavar="0.0-1.0", help="Set the color saturation."
-    )
+    arg.add_argument("--saturate", metavar="0.0-1.0", help="Set the color saturation.")
 
     arg.add_argument(
         "--preview",
@@ -141,9 +141,7 @@ def get_args():
         help="Fix text-artifacts printed in VTE terminals.",
     )
 
-    arg.add_argument(
-        "-c", action="store_true", help="Delete all cached colorschemes."
-    )
+    arg.add_argument("-c", action="store_true", help="Delete all cached colorschemes.")
 
     arg.add_argument(
         "-i",
@@ -151,13 +149,9 @@ def get_args():
         help="Which image or directory to use.",
     )
 
-    arg.add_argument(
-        "-l", action="store_true", help="Generate a light colorscheme."
-    )
+    arg.add_argument("-l", action="store_true", help="Generate a light colorscheme.")
 
-    arg.add_argument(
-        "-n", action="store_true", help="Skip setting the wallpaper."
-    )
+    arg.add_argument("-n", action="store_true", help="Skip setting the wallpaper.")
 
     arg.add_argument(
         "-o",
@@ -185,17 +179,13 @@ def get_args():
                            (cat ~/.cache/wal/sequences &) instead.",
     )
 
-    arg.add_argument(
-        "-R", action="store_true", help="Restore previous colorscheme."
-    )
+    arg.add_argument("-R", action="store_true", help="Restore previous colorscheme.")
 
     arg.add_argument(
         "-s", action="store_true", help="Skip changing colors in terminals."
     )
 
-    arg.add_argument(
-        "-t", action="store_true", help="Skip changing colors in tty."
-    )
+    arg.add_argument("-t", action="store_true", help="Skip changing colors in tty.")
 
     arg.add_argument("-v", action="store_true", help='Print "wal" version.')
 
@@ -251,27 +241,15 @@ def parse_args_exit(parser):
         shutil.rmtree(scheme_dir, ignore_errors=True)
         sys.exit(0)
 
-    if (
-        not args.i
-        and not args.theme
-        and not args.R
-        and not args.w
-        and not args.backend
-    ):
-        parser.error(
-            "No input specified.\n" "--backend, --theme, -i or -R are required."
-        )
+    if not args.i and not args.theme and not args.R and not args.w and not args.backend:
+        parser.error("No input specified.\n--backend, --theme, -i or -R are required.")
 
     if args.theme == "list_themes":
         theme.list_out()
         sys.exit(0)
 
     if args.backend == "list_backends":
-        print(
-            "\n - ".join(
-                ["\033[1;32mBackends\033[0m:", *colors.list_backends()]
-            )
-        )
+        print("\n - ".join(["\033[1;32mBackends\033[0m:", *colors.list_backends()]))
         sys.exit(0)
 
 

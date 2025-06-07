@@ -6,10 +6,9 @@ import logging
 import os
 import shutil
 import subprocess
-import time
 
-from .settings import CACHE_DIR, MODULE_DIR, OS
 from . import util
+from .settings import CACHE_DIR, OS
 
 
 def tty(tty_reload):
@@ -97,7 +96,7 @@ def colors(cache_dir=CACHE_DIR):
     """Reload colors. (Deprecated)"""
     sequences = os.path.join(cache_dir, "sequences")
 
-    logging.error("'wal -r' is deprecated: " "Use 'cat %s' instead.", sequences)
+    logging.error("'wal -r' is deprecated: Use 'cat %s' instead.", sequences)
 
     if os.path.isfile(sequences):
         print("".join(util.read_file(sequences)), end="")

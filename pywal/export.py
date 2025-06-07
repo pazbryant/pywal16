@@ -76,9 +76,7 @@ def template(colors, input_file, output_file=None):
     try:
         template_data = "".join(template_data).format(**colors)
     except (ValueError, KeyError, AttributeError) as exc:
-        logging.error(
-            "Syntax error in template file '%s': %r.", input_file, exc
-        )
+        logging.error("Syntax error in template file '%s': %r.", input_file, exc)
         return
     util.save_file(template_data, output_file)
 

@@ -1,18 +1,18 @@
 """Set the wallpaper."""
 
 import ctypes
+import datetime
 import logging
 import os
+import plistlib
 import re
 import shutil
 import subprocess
-import urllib.parse
-import plistlib
-import datetime
 import tempfile
+import urllib.parse
 
-from .settings import HOME, OS, CACHE_DIR
 from . import util
+from .settings import CACHE_DIR, HOME, OS
 
 
 def get_desktop_env():
@@ -159,9 +159,7 @@ def set_desktop_wallpaper(desktop, img):
         util.disown(
             [
                 "awesome-client",
-                "require('gears').wallpaper.maximized('{img}')".format(
-                    **locals()
-                ),
+                "require('gears').wallpaper.maximized('{img}')".format(**locals()),
             ]
         )
 
@@ -206,7 +204,6 @@ def set_mac_wallpaper(img):
     # Fresh installs of Sonoma will not have this file.
     # Check if file exists to make backwards compatibility forwards compatible.
     if os.path.isfile(db_path):
-
         # Put the image path in the database
         sql = 'insert into data values("%s"); ' % img
         subprocess.call(["sqlite3", db_path, sql])
@@ -242,17 +239,13 @@ def set_mac_wallpaper(img):
     # referenced above still exists, but doesn't seem to do anyything on Sonoma
     # so lets leave it for backward compatatility
 
-    plist_path = (
-        "Library/Application Support/com.apple.wallpaper/Store/Index.plist"
-    )
+    plist_path = "Library/Application Support/com.apple.wallpaper/Store/Index.plist"
     plist_path = os.path.join(HOME, plist_path)
 
     # Write a backup of plist file in temp in case something horrific happens
     with open(plist_path, "rb") as f:
         old_plist = plistlib.load(f)
-        with tempfile.NamedTemporaryFile(
-            prefix="pywal-plist-bk-", delete=False
-        ) as g:
+        with tempfile.NamedTemporaryFile(prefix="pywal-plist-bk-", delete=False) as g:
             logging.info(f"Backup plist file saved to {g.name}")
             plistlib.dump(old_plist, g)
 
@@ -279,9 +272,7 @@ def set_mac_wallpaper(img):
                 "Type": "individual",
                 "Idle": {
                     "LastSet": datetime.datetime.now(),
-                    "LastUse": datetime.datetime(
-                        2023, 10, 21, 2, 51, 4, 435303
-                    ),
+                    "LastUse": datetime.datetime(2023, 10, 21, 2, 51, 4, 435303),
                     "Content": {
                         "Choices": [
                             {

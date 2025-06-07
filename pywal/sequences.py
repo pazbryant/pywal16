@@ -7,8 +7,8 @@ import logging
 import os
 import subprocess
 
-from .settings import CACHE_DIR, OS
 from . import util
+from .settings import CACHE_DIR, OS
 
 
 def set_special(index, color, iterm_name="h", alpha=100):
@@ -45,8 +45,7 @@ def create_sequences(colors, vte_fix=False):
 
     # Colors 0-15.
     sequences = [
-        set_color(index, colors["colors"]["color%s" % index])
-        for index in range(16)
+        set_color(index, colors["colors"]["color%s" % index]) for index in range(16)
     ]
 
     # Special colors.
@@ -68,9 +67,7 @@ def create_sequences(colors, vte_fix=False):
     )
 
     if not vte_fix:
-        sequences.extend(
-            set_special(708, colors["special"]["background"], "", alpha)
-        )
+        sequences.extend(set_special(708, colors["special"]["background"], "", alpha))
 
     if OS == "Darwin":
         sequences += set_iterm_tab_color(colors["special"]["background"])

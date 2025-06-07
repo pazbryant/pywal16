@@ -7,9 +7,8 @@ import os
 import random
 import sys
 
+from . import colors, util
 from .settings import CACHE_DIR, CONF_DIR, MODULE_DIR
-from . import util
-from . import colors
 
 
 def list_out():
@@ -18,14 +17,12 @@ def list_out():
     light_themes = [
         theme.name.replace(".json", "") for theme in list_themes(dark=False)
     ]
-    user_themes = [
-        theme.name.replace(".json", "") for theme in list_themes_user()
-    ]
+    user_themes = [theme.name.replace(".json", "") for theme in list_themes_user()]
 
     try:
-        last_used_theme = util.read_file(
-            os.path.join(CACHE_DIR, "last_used_theme")
-        )[0].replace(".json", "")
+        last_used_theme = util.read_file(os.path.join(CACHE_DIR, "last_used_theme"))[
+            0
+        ].replace(".json", "")
     except FileNotFoundError:
         last_used_theme = ""
 
@@ -165,9 +162,7 @@ def file(input_file, light=False, **kwargs):
 
     # Parse the theme file.
     if os.path.isfile(theme_file):
-        logging.info(
-            "Set theme to \033[1;37m%s\033[0m.", os.path.basename(theme_file)
-        )
+        logging.info("Set theme to \033[1;37m%s\033[0m.", os.path.basename(theme_file))
         util.save_file(
             os.path.basename(theme_file),
             os.path.join(CACHE_DIR, "last_used_theme"),

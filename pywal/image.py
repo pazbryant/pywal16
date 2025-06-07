@@ -8,9 +8,8 @@ import random
 import re
 import sys
 
+from . import util, wallpaper
 from .settings import CACHE_DIR
-from . import util
-from . import wallpaper
 
 
 def get_image_dir_recursive(img_dir):
@@ -39,9 +38,7 @@ def get_image_dir(img_dir):
     file_types = (".png", ".jpg", ".jpeg", ".jpe", ".gif")
 
     return [
-        img.name
-        for img in os.scandir(img_dir)
-        if img.name.lower().endswith(file_types)
+        img.name for img in os.scandir(img_dir) if img.name.lower().endswith(file_types)
     ], current_wall
 
 

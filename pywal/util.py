@@ -3,6 +3,8 @@ Misc helper functions.
 """
 
 import colorsys
+import copy
+import hashlib
 import json
 import logging
 import os
@@ -11,8 +13,6 @@ import re
 import shutil
 import subprocess
 import sys
-import hashlib
-import copy
 
 has_fcntl = False
 fcntl_warning = ""
@@ -234,9 +234,7 @@ def save_file(data, export_file):
         except PermissionError:
             logging.warning("Couldn't write to %s.", export_file)
         except BlockingIOError:
-            logging.warning(
-                "Couldn't write to %s, not accepting data", export_file
-            )
+            logging.warning("Couldn't write to %s, not accepting data", export_file)
     else:
         try:
             with open(export_file, "w") as file:
@@ -269,11 +267,7 @@ def create_dir(directory):
 def setup_logging():
     """Logging config."""
     logging.basicConfig(
-        format=(
-            "[%(levelname)s\033[0m] "
-            "\033[1;31m%(module)s\033[0m: "
-            "%(message)s"
-        ),
+        format=("[%(levelname)s\033[0m] \033[1;31m%(module)s\033[0m: %(message)s"),
         level=logging.INFO,
         stream=sys.stdout,
     )
